@@ -1,12 +1,12 @@
 {
   "user_id": 1,
-  "username": "brooke86",
-  "email": "gregorybeard@example.net",
-  "monthly_income": 7252.0,
-  "financial_goals": "House Down Payment",
-  "total_transactions": 418,
+  "username": "romeronicholas",
+  "email": "amandawolf@example.net",
+  "monthly_income": 3274.0,
+  "financial_goals": "Emergency Fund",
+  "total_transactions": 428,
   "date_range": {
     "start": "2024-01-01",
-    "end": "2024-12-31"
+    "end": "2024-12-30"
   }
 }

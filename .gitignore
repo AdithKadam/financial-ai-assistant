@@ -12,6 +12,12 @@ __pycache__/
 .venv/
 venv/
 env/
+financial-assistant/
+.streamlit/
+2025-10-16T17-35_export.csv
+config/
+data/vector_db/7f432d9b-a381-4231-8114-a1e2f991a2c0/
+.gitignore
 
 # Database files
 *.db

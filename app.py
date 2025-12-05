@@ -31,15 +31,17 @@ except ImportError as e:
     st.error("Please ensure all modules are in the correct directories")
     st.stop()
 
+# --- NEW THEME/COLOR/FONT CHANGE START ---
+
 # Configure Streamlit page
 st.set_page_config(
-    page_title="Personal Finance AI Assistant",
-    page_icon="💰",
+    page_title="Financial Freedom Awaits", # New Page Title
+    page_icon="💸", # More vibrant icon
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Initialize session state
+# Initialize session state (No changes here)
 if 'user_id' not in st.session_state:
     st.session_state.user_id = 1
 if 'db' not in st.session_state:
@@ -52,43 +54,218 @@ if 'agent_coordinator' not in st.session_state:
 if 'api_client' not in st.session_state:
     st.session_state.api_client = APIClient()
 
-# Custom CSS
+# Custom CSS for a vibrant, elegant, and formal look (Inspired by Owncap)
 st.markdown("""
 <style>
+    /* Import elegant Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+    :root {
+        /* Owncap inspired palette */
+        --primary-accent: #00C896; /* Vibrant Teal */
+        --dark-primary: #0A343D;   /* Dark Teal/Blue (for backgrounds, text) */
+        --light-background: #F8F9FA; /* Off-white for main content */
+        --white: #FFFFFF;
+        --text-color: #333333; /* Darker text for readability */
+        --subtle-gray: #ADB5BD; /* Light gray for borders/hints */
+    }
+
+    /* Apply custom fonts to the body and headings */
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color);
+        background-color: var(--white);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Montserrat', sans-serif;
+        color: var(--dark-primary);
+        font-weight: 600;
+    }
+
+    /* Main header styling (Financial Freedom Awaits) */
     .main-header {
-        font-size: 3rem;
-        color: #1f77b4;
-        text-align: center;
-        margin-bottom: 2rem;
+        font-size: 4.5rem; /* Larger, more impactful */
+        font-weight: 700;
+        color: var(--dark-primary);
+        text-align: left;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
     }
+    
+    .stApp {
+        background-color: var(--white);
+    }
+    .stApp [data-testid="stHeader"] {
+        background-color: transparent;
+    }
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    /* Custom Header for Owncap-like branding */
+    .owncap-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background-color: var(--dark-primary); /* Dark teal header background */
+        color: var(--white);
+        margin: -1rem -1rem 2rem -1rem; /* Adjust to full width */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .owncap-header .logo {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 1.8rem;
+        color: var(--primary-accent); /* Vibrant Teal logo */
+        display: flex;
+        align-items: center;
+    }
+    .owncap-nav a {
+        color: var(--white);
+        text-decoration: none;
+        margin-left: 2rem;
+        font-weight: 500;
+        font-family: 'Poppins', sans-serif;
+        transition: color 0.3s;
+    }
+    .owncap-nav a:hover {
+        color: var(--primary-accent);
+    }
+    .contact-button {
+        background-color: var(--primary-accent);
+        color: var(--dark-primary);
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s;
+    }
+
+    /* Metric Cards - Sleek and modern */
     .metric-card {
-        background: linear-gradient(45deg, #f0f2f6, #ffffff);
-        padding: 1rem;
-        border-radius: 10px;
-        border-left: 4px solid #1f77b4;
-        margin: 0.5rem 0;
+        background-color: var(--white);
+        padding: 1.2rem;
+        border-radius: 12px;
+        border: 1px solid var(--subtle-gray);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        margin: 0.7rem 0;
+        transition: transform 0.2s ease-in-out;
     }
+    .metric-card:hover {
+        transform: translateY(-3px);
+    }
+    
+    /* FIX: Allow metric values to fit */
+    [data-testid="stMetricValue"] {
+        font-family: 'Montserrat', sans-serif;
+        color: var(--dark-primary) !important;
+        font-size: 2.2rem !important;
+        font-weight: 700 !important;
+        /* Ensure numbers don't get truncated */
+        overflow: visible !important; 
+        word-break: break-word;
+        white-space: normal;
+        line-height: 1.1;
+    }
+    [data-testid="stMetricLabel"] {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color) !important;
+        font-size: 1rem !important;
+        font-weight: 500 !important;
+        /* Ensure label fits */
+        white-space: normal; 
+    }
+    
+    /* Chat Messages - Clean and distinct */
     .chat-message {
-        padding: 1rem;
-        border-radius: 10px;
-        margin: 0.5rem 0;
+        padding: 1.2rem;
+        border-radius: 15px;
+        margin: 0.7rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        font-family: 'Poppins', sans-serif;
     }
     .user-message {
-        background-color: #e3f2fd;
-        margin-left: 2rem;
+        background-color: #E6F7F2; /* Light vibrant teal for user */
+        border-left: 5px solid var(--primary-accent);
+        margin-left: 3rem;
     }
     .ai-message {
-        background-color: #f1f8e9;
-        margin-right: 2rem;
+        background-color: var(--light-background); /* Off-white for AI */
+        border-right: 5px solid var(--subtle-gray);
+        margin-right: 3rem;
+    }
+
+    /* Sidebar - Cleaner and integrated look */
+    .css-1d391kg { /* Targets the sidebar main container */
+        background-color: var(--dark-primary) !important;
+        color: var(--white) !important;
+        font-family: 'Poppins', sans-serif;
+    }
+    .css-1d391kg h2, .css-1d391kg h3, .css-1d391kg h4 {
+        color: var(--primary-accent) !important;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+    }
+    .css-1d391kg .st-bh, .css-1d391kg .st-ci { /* Selectbox and input labels in sidebar */
+        color: var(--white) !important;
     }
     .sidebar-section {
-        background-color: #f8f9fa;
+        background-color: rgba(255,255,255,0.08); /* Slightly lighter dark teal */
+        border-radius: 10px;
+        margin: 0rem 0;
+        border: 0px solid rgba(255,255,255,0.1);
+    }
+
+    /* Buttons - Sleek, primary accent */
+    .stButton > button {
+        background-color: var(--primary-accent);
+        color: var(--dark-primary);
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        border-radius: 8px;
+        border: none;
+        transition: background-color 0.3s, transform 0.2s;
+        box-shadow: 0 2px 5px rgba(0,200,150,0.3);
+    }
+    .stButton > button:hover {
+        background-color: #00A67C;
+        transform: translateY(-2px);
+    }
+
+    /* Expander/Info boxes */
+    .stAlert div[data-baseweb="button"] {
+        background-color: #E6F7F2;
+        color: var(--dark-primary);
+        border-left: 5px solid var(--primary-accent);
+        border-radius: 8px;
         padding: 1rem;
-        border-radius: 5px;
-        margin: 0.5rem 0;
+    }
+    .stExpander div[data-baseweb="accordion-item"] {
+        background-color: var(--light-background);
+        border-radius: 10px;
+        border: 1px solid var(--subtle-gray);
+        margin-bottom: 0.5rem;
+        padding: 0.5rem;
+    }
+    
+    p, li, .st-ay, .st-az { /* General text and table cells */
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color);
     }
 </style>
 """, unsafe_allow_html=True)
+
+# Define primary colors for Plotly consistency
+PRIMARY_COLOR = '#00C896' # Vibrant Teal
+SECONDARY_COLOR = '#0A343D' # Dark Teal/Blue
+ACCENT_COLOR = '#88D1AA' # Lighter Teal for subtle contrasts
+
+# --- NEW THEME/COLOR/FONT CHANGE END ---
 
 def load_sample_data():
     """Load or generate sample data"""
@@ -126,12 +303,16 @@ def create_spending_overview_chart(transactions_df):
         x='date', 
         y='amount',
         title='Monthly Spending Trend',
-        markers=True
+        markers=True,
+        color_discrete_sequence=[PRIMARY_COLOR] # Use Vibrant Teal
     )
     trend_fig.update_layout(
         xaxis_title="Month",
         yaxis_title="Amount ($)",
-        template="plotly_white"
+        template="plotly_white",
+        font_family="Poppins, sans-serif", # Apply new font
+        title_font_family="Montserrat, sans-serif",
+        title_font_color=SECONDARY_COLOR
     )
     
     # Category breakdown
@@ -143,9 +324,15 @@ def create_spending_overview_chart(transactions_df):
         category_spending,
         values='amount',
         names='category',
-        title='Spending by Category'
+        title='Spending by Category',
+        color_discrete_sequence=px.colors.qualitative.Pastel # Softer, elegant palette
     )
     pie_fig.update_traces(textposition='inside', textinfo='percent+label')
+    pie_fig.update_layout(
+        font_family="Poppins, sans-serif",
+        title_font_family="Montserrat, sans-serif",
+        title_font_color=SECONDARY_COLOR
+    )
     
     # Bar chart
     bar_fig = px.bar(
@@ -154,10 +341,16 @@ def create_spending_overview_chart(transactions_df):
         y='category',
         orientation='h',
         title='Top 10 Spending Categories',
-        text='amount'
+        text='amount',
+        color_discrete_sequence=[SECONDARY_COLOR] # Use Dark Teal/Blue
     )
     bar_fig.update_traces(texttemplate='$%{text:.0f}', textposition='outside')
-    bar_fig.update_layout(yaxis={'categoryorder':'total ascending'})
+    bar_fig.update_layout(
+        yaxis={'categoryorder':'total ascending'},
+        font_family="Poppins, sans-serif",
+        title_font_family="Montserrat, sans-serif",
+        title_font_color=SECONDARY_COLOR
+    )
     
     return trend_fig, pie_fig, bar_fig
 
@@ -172,21 +365,21 @@ def create_budget_comparison_chart(budget_data):
     
     fig = go.Figure()
     
-    # Add budget limits
+    # Add budget limits (Lighter accent color)
     fig.add_trace(go.Bar(
         name='Budget Limit',
         x=categories,
         y=budget_amounts,
-        marker_color='lightblue',
+        marker_color=ACCENT_COLOR, 
         opacity=0.7
     ))
     
-    # Add actual spending
+    # Add actual spending (Primary vibrant color)
     fig.add_trace(go.Bar(
         name='Actual Spending',
         x=categories,
         y=actual_amounts,
-        marker_color='coral'
+        marker_color=PRIMARY_COLOR # Vibrant Teal
     ))
     
     fig.update_layout(
@@ -194,7 +387,10 @@ def create_budget_comparison_chart(budget_data):
         xaxis_title='Category',
         yaxis_title='Amount ($)',
         barmode='group',
-        template='plotly_white'
+        template='plotly_white',
+        font_family="Poppins, sans-serif",
+        title_font_family="Montserrat, sans-serif",
+        title_font_color=SECONDARY_COLOR
     )
     
     return fig
@@ -205,24 +401,24 @@ def create_financial_health_gauge(health_score):
         mode = "gauge+number+delta",
         value = health_score,
         domain = {'x': [0, 1], 'y': [0, 1]},
-        title = {'text': "Financial Health Score"},
+        title = {'text': "Financial Health Score", 'font': {'family': 'Montserrat', 'color': SECONDARY_COLOR}},
         delta = {'reference': 70},
         gauge = {
-            'axis': {'range': [None, 100]},
-            'bar': {'color': "darkblue"},
+            'axis': {'range': [None, 100], 'tickfont': {'family': 'Poppins'}},
+            'bar': {'color': PRIMARY_COLOR}, # Vibrant Teal bar
             'steps': [
-                {'range': [0, 50], 'color': "lightgray"},
-                {'range': [50, 80], 'color': "gray"}
+                {'range': [0, 50], 'color': "#DDF3EB"}, # Lightest teal
+                {'range': [50, 80], 'color': "#BEE7DA"} # Mid teal
             ],
             'threshold': {
-                'line': {'color': "red", 'width': 4},
+                'line': {'color': '#FF6347', 'width': 4}, # Tomato red for warning
                 'thickness': 0.75,
                 'value': 90
             }
         }
     ))
     
-    fig.update_layout(height=300)
+    fig.update_layout(height=300, font_family="Poppins, sans-serif")
     return fig
 
 def create_spending_velocity_chart(transactions_df):
@@ -239,31 +435,36 @@ def create_spending_velocity_chart(transactions_df):
     daily_spending.columns = ['date', 'amount']
     
     # Calculate 7-day moving average
-    daily_spending['moving_avg'] = daily_spending['amount'].rolling(window=7).mean()
+    daily_spending['moving_avg'] = daily_spending['amount'].rolling(window=7, min_periods=1).mean()
     
     fig = go.Figure()
     
+    # Daily spending markers
     fig.add_trace(go.Scatter(
         x=daily_spending['date'],
         y=daily_spending['amount'],
         mode='markers',
         name='Daily Spending',
-        opacity=0.6
+        marker=dict(color=PRIMARY_COLOR, opacity=0.6) # Vibrant Teal markers
     ))
     
+    # Moving average line
     fig.add_trace(go.Scatter(
         x=daily_spending['date'],
         y=daily_spending['moving_avg'],
         mode='lines',
-        name='7-Day Average',
-        line=dict(color='red', width=2)
+        line=dict(color=SECONDARY_COLOR, width=2), # Dark Teal/Blue line
+        name='7-Day Avg'
     ))
     
     fig.update_layout(
         title='Daily Spending Pattern',
         xaxis_title='Date',
         yaxis_title='Amount ($)',
-        template='plotly_white'
+        template='plotly_white',
+        font_family="Poppins, sans-serif",
+        title_font_family="Montserrat, sans-serif",
+        title_font_color=SECONDARY_COLOR
     )
     
     return fig
@@ -272,49 +473,58 @@ def display_ai_insights(insights_data):
     """Display AI-generated insights"""
     if 'summary' in insights_data:
         summary = insights_data['summary']
-        
+
         # Financial Health Score
-        col1, col2, col3 = st.columns([1, 2, 1])
+        col1, col2, col3 = st.columns([1, 3, 1 ])
         with col2:
             health_score = summary.get('overall_health_score', 70)
             gauge_fig = create_financial_health_gauge(health_score)
             st.plotly_chart(gauge_fig, use_container_width=True)
         
-        # Key Metrics
-        if 'key_metrics' in summary:
-            st.subheader("📊 Key Metrics")
-            metrics = summary['key_metrics']
-            
-            col1, col2, col3, col4 = st.columns(4)
-            with col1:
-                monthly_spending = metrics.get('monthly_spending', 0)
-                st.metric("Monthly Spending", f"${monthly_spending:,.2f}")
-            
-            with col2:
-                # Calculate savings rate if income is available
-                monthly_income = st.session_state.get('current_user_income', 5000)
-                savings_rate = ((monthly_income - monthly_spending) / monthly_income * 100) if monthly_income > 0 else 0
-                st.metric("Savings Rate", f"{savings_rate:.1f}%")
-            
-            with col3:
-                # Number of transactions
-                num_transactions = len(st.session_state.get('current_transactions', []))
-                st.metric("Transactions", num_transactions)
-            
-            with col4:
-                # Average transaction
-                avg_transaction = monthly_spending / num_transactions if num_transactions > 0 else 0
-                st.metric("Avg Transaction", f"${avg_transaction:.2f}")
-        
-        # Top Priorities
+         # Top Priorities
         if 'top_priorities' in summary and summary['top_priorities']:
-            st.subheader("🎯 Top Priorities")
+            st.subheader("Top Priorities")
             for i, priority in enumerate(summary['top_priorities'], 1):
                 st.info(f"**{i}.** {priority}")
 
+       
+def key_metrics(insights_data):
+
+ if 'summary' in insights_data:
+        summary = insights_data['summary']
+
+        if 'key_metrics' in summary:
+            st.subheader("Key Metrics")
+            metrics = summary['key_metrics']
+            
+            # FIX: Use equal columns to ensure large numbers fit
+            col1, col2, col3, col4 = st.columns(4) 
+            
+            with col1:
+                monthly_spending = metrics.get('monthly_spending', 0)
+                st.metric("Monthly Spending", f"${monthly_spending:,.2f}")
+                st.markdown('</div>', unsafe_allow_html=True)
+            
+            with col2:
+                monthly_income = st.session_state.get('current_user_income', 5000)
+                savings_rate = ((monthly_income - monthly_spending) / monthly_income * 100) if monthly_income > 0 else 0
+                st.metric("Savings Rate", f"{savings_rate:,.1f}%")
+                st.markdown('</div>', unsafe_allow_html=True)
+            
+            with col3:
+                num_transactions = len(st.session_state.get('current_transactions', []))
+                st.metric("Transactions", num_transactions)
+                st.markdown('</div>', unsafe_allow_html=True)
+            
+            with col4:
+                avg_transaction = monthly_spending / num_transactions if num_transactions > 0 else 0
+                st.metric("Avg Transaction", f"${avg_transaction:,.2f}")
+                st.markdown('</div>', unsafe_allow_html=True)
+              
+
 def chat_interface():
     """AI Chat Interface"""
-    st.subheader("💬 Ask Your AI Financial Advisor")
+    st.subheader("Ask Your AI Financial Advisor")
     
     # Initialize chat history in session state
     if 'chat_history' not in st.session_state:
@@ -333,9 +543,9 @@ def chat_interface():
                 # Prepare user context
                 user_context = {
                     'monthly_income': st.session_state.get('current_user_income', 5000),
-                    'transactions': st.session_state.get('current_transactions', pd.DataFrame())
+                    'transactions': st.session_state.get('current_transactions', pd.DataFrame()).to_dict(orient="records")
                 }
-                
+
                 # Get response from RAG system
                 chat_response = st.session_state.rag_system.chat_with_context(user_input, user_context)
                 ai_response = chat_response['response']
@@ -353,16 +563,15 @@ def chat_interface():
                 error_response = f"I apologize, but I encountered an error: {str(e)}. Please try rephrasing your question."
                 st.session_state.chat_history.append({"role": "assistant", "content": error_response})
     
-    # Display chat history
+    # Display chat history (using custom CSS classes via st.markdown)
     for message in st.session_state.chat_history[-10:]:  # Show last 10 messages
         if message["role"] == "user":
-            st.chat_message("user").write(message["content"])
+            st.markdown(f'<div class="chat-message user-message">{message["content"]}</div>', unsafe_allow_html=True)
         else:
-            st.chat_message("assistant").write(message["content"])
+            st.markdown(f'<div class="chat-message ai-message">{message["content"]}</div>', unsafe_allow_html=True)
 
 def file_upload_section():
     """Handle file upload and processing"""
-    st.subheader("📁 Upload Your Transaction Data")
     
     uploaded_file = st.file_uploader(
         "Choose a CSV file with your transaction data",
@@ -389,11 +598,11 @@ def file_upload_section():
             if 'merchant' not in transactions_df.columns:
                 transactions_df['merchant'] = ''
             if 'transaction_type' not in transactions_df.columns:
-                transactions_df['transaction_type'] = 'expense'
+                transactions_df['transaction_type'] = transactions_df['amount'].apply(lambda x: 'income' if x > 0 else 'expense')
             
             # Validate and process data
             transactions_df['date'] = pd.to_datetime(transactions_df['date'])
-            transactions_df['amount'] = pd.to_numeric(transactions_df['amount'], errors='coerce')
+            transactions_df['amount'] = pd.to_numeric(transactions_df['amount'], errors='coerce').abs() # Use absolute amount for expenses/income
             
             # Remove invalid rows
             transactions_df = transactions_df.dropna(subset=['date', 'amount'])
@@ -419,13 +628,18 @@ def file_upload_section():
 def main():
     """Main Streamlit application"""
     
-    # Header
-    st.markdown('<h1 class="main-header">💰 Personal Finance AI Assistant</h1>', unsafe_allow_html=True)
-    st.markdown("---")
+    # Custom Header (Mimicking Owncap)
+    st.markdown(f"""
+        <div class="owncap-header">
+            <div class="logo" style="font-size: 3.5em;">
+                Financial AI Assistant
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+    # st.markdown("Innovate, Prosper, Own: Empowering Your Financial Future", unsafe_allow_html=True)
     
     # Sidebar
     with st.sidebar:
-        st.image("https://via.placeholder.com/150x100/1f77b4/ffffff?text=FinanceAI", width=150)
         st.markdown("### Navigation")
         
         # Page selection
@@ -435,32 +649,40 @@ def main():
         )
         
         # User settings
-        st.markdown("### User Settings")
-        monthly_income = st.number_input("Monthly Income ($)", min_value=0, value=5000, step=100)
+        st.markdown('<div class="sidebar-section"><h3>User Settings</h3>', unsafe_allow_html=True)
+        # Check if income is already set from session state, otherwise use default
+        default_income = st.session_state.get('current_user_income', 5000)
+        monthly_income = st.number_input("Monthly Income ($)", min_value=0, value=default_income, step=100)
         st.session_state.current_user_income = monthly_income
         
         financial_goal = st.selectbox(
             "Primary Financial Goal",
             ["Emergency Fund", "House Down Payment", "Retirement", "Debt Payoff", "Vacation"]
         )
+        # Store goal in session state
+        st.session_state.financial_goal = financial_goal 
+        st.markdown('</div>', unsafe_allow_html=True) # Close sidebar section div
         
         # Quick stats
         if 'current_transactions' in st.session_state:
-            st.markdown("### Quick Stats")
+            st.markdown('<div class="sidebar-section"><h3>Quick Stats</h3>', unsafe_allow_html=True)
             transactions = st.session_state.current_transactions
             if not transactions.empty:
                 expenses = transactions[transactions['transaction_type'] == 'expense']
                 total_spending = expenses['amount'].sum()
                 st.metric("Total Spending", f"${total_spending:,.2f}")
                 st.metric("Number of Transactions", len(expenses))
+            st.markdown('</div>', unsafe_allow_html=True) # Close sidebar section div
     
     # Load data
-    if 'current_transactions' not in st.session_state or 'uploaded_data' not in st.session_state:
+    if 'current_transactions' not in st.session_state or st.session_state.get('uploaded_data') is None:
         users_df, transactions_df = load_sample_data()
         if not transactions_df.empty:
             # Use first user's data as default
-            st.session_state.current_transactions = transactions_df[transactions_df['user_id'] == 1]
-            st.session_state.current_user_income = monthly_income
+            st.session_state.current_transactions = transactions_df[transactions_df['user_id'] == 1].copy()
+            # Set default income if not set by user
+            if 'current_user_income' not in st.session_state:
+                st.session_state.current_user_income = monthly_income 
     
     # Main content based on selected page
     if page == "Dashboard Overview":
@@ -478,7 +700,7 @@ def main():
 
 def dashboard_overview():
     """Dashboard overview page"""
-    st.header("📊 Financial Dashboard Overview")
+    st.header("Financial Dashboard Overview")
     
     # Get current transactions
     transactions_df = st.session_state.get('current_transactions', pd.DataFrame())
@@ -500,6 +722,7 @@ def dashboard_overview():
         # Run analysis
         analysis_results = st.session_state.agent_coordinator.comprehensive_analysis(user_data, market_data)
     
+    key_metrics(analysis_results)
     # Display results
     col1, col2 = st.columns([2, 1])
     
@@ -520,14 +743,17 @@ def dashboard_overview():
     
     with col2:
         # AI Insights
-        display_ai_insights(analysis_results)
+        display_ai_insights(analysis_results) 
+
+    
+
     
     # Additional analysis sections
     st.markdown("---")
     
     # Budget comparison
     if 'budget_recommendations' in analysis_results:
-        st.subheader("💳 Budget vs Actual")
+        st.subheader("Budget vs Actual")
         budget_data = analysis_results['budget_recommendations'].get('current_vs_recommended')
         if budget_data:
             budget_fig = create_budget_comparison_chart(budget_data)
@@ -536,14 +762,14 @@ def dashboard_overview():
     
     # Market context
     if 'market_context' in analysis_results:
-        st.subheader("🌍 Market Context")
+        st.subheader("Market Context")
         market_context = analysis_results['market_context']
         
         col1, col2, col3 = st.columns(3)
         with col1:
             inflation_impact = market_context.get('inflation_impact', {})
             monthly_impact = inflation_impact.get('monthly_impact', 0)
-            st.metric("Inflation Impact", f"+${monthly_impact:.2f}/month")
+            st.metric("Inflation Impact", f"+${monthly_impact:,.2f}/month")
         
         with col2:
             interest_context = market_context.get('interest_rate_impact', {})
@@ -557,7 +783,7 @@ def dashboard_overview():
 
 def spending_analysis():
     """Detailed spending analysis page"""
-    st.header("📈 Spending Analysis")
+    st.header("Spending Analysis")
     
     transactions_df = st.session_state.get('current_transactions', pd.DataFrame())
     
@@ -565,21 +791,30 @@ def spending_analysis():
         st.warning("No transaction data available.")
         return
     
+    # Ensure date column is datetime and get min/max
+    try:
+        transactions_df['date'] = pd.to_datetime(transactions_df['date'])
+        min_date = transactions_df['date'].min().date()
+        max_date = transactions_df['date'].max().date()
+    except Exception:
+        st.error("Error processing date column.")
+        return
+
     # Date range selector
     col1, col2 = st.columns(2)
     with col1:
-        start_date = st.date_input("Start Date", value=pd.to_datetime(transactions_df['date']).min())
+        start_date = st.date_input("Start Date", value=min_date)
     with col2:
-        end_date = st.date_input("End Date", value=pd.to_datetime(transactions_df['date']).max())
+        end_date = st.date_input("End Date", value=max_date)
     
     # Filter transactions
     filtered_df = transactions_df[
-        (pd.to_datetime(transactions_df['date']) >= pd.to_datetime(start_date)) &
-        (pd.to_datetime(transactions_df['date']) <= pd.to_datetime(end_date))
-    ]
+        (transactions_df['date'].dt.date >= start_date) &
+        (transactions_df['date'].dt.date <= end_date)
+    ].copy()
     
     # Analysis tabs
-    tab1, tab2, tab3, tab4 = st.tabs(["📊 Overview", "📅 Trends", "🎯 Categories", "🚨 Anomalies"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Trends", "Categories", "Anomalies"])
     
     with tab1:
         # Overview metrics
@@ -591,14 +826,14 @@ def spending_analysis():
             st.metric("Total Spending", f"${total_spent:,.2f}")
         with col2:
             avg_transaction = expenses_df['amount'].mean() if not expenses_df.empty else 0
-            st.metric("Average Transaction", f"${avg_transaction:.2f}")
+            st.metric("Average Transaction", f"${avg_transaction:,.2f}")
         with col3:
             num_transactions = len(expenses_df)
             st.metric("Number of Transactions", num_transactions)
         with col4:
             days_range = (end_date - start_date).days + 1
             daily_avg = total_spent / days_range if days_range > 0 else 0
-            st.metric("Daily Average", f"${daily_avg:.2f}")
+            st.metric("Daily Average", f"${daily_avg:,.2f}")
         
         # Spending velocity chart
         velocity_fig = create_spending_velocity_chart(filtered_df)
@@ -613,7 +848,7 @@ def spending_analysis():
         
         # Weekly pattern analysis
         if not expenses_df.empty:
-            expenses_df['day_of_week'] = pd.to_datetime(expenses_df['date']).dt.day_name()
+            expenses_df['day_of_week'] = expenses_df['date'].dt.day_name()
             weekly_spending = expenses_df.groupby('day_of_week')['amount'].sum().reindex([
                 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
             ])
@@ -622,8 +857,10 @@ def spending_analysis():
                 x=weekly_spending.index,
                 y=weekly_spending.values,
                 title="Spending by Day of Week",
-                labels={'x': 'Day', 'y': 'Amount ($)'}
+                labels={'x': 'Day', 'y': 'Amount ($)'},
+                color_discrete_sequence=[SECONDARY_COLOR]
             )
+            weekly_fig.update_layout(template='plotly_white', font_family="Poppins, sans-serif", title_font_family="Montserrat, sans-serif")
             st.plotly_chart(weekly_fig, use_container_width=True)
     
     with tab3:
@@ -654,21 +891,21 @@ def spending_analysis():
             anomalies = analysis.get('anomalies', {})
             
             if anomalies.get('anomalies'):
-                st.subheader("🚨 Detected Anomalies")
+                st.subheader("Detected Anomalies")
                 for anomaly in anomalies['anomalies'][:10]:
-                    with st.expander(f"${anomaly['amount']:.2f} - {anomaly['category']} on {anomaly['date']}"):
+                    with st.expander(f"${anomaly['amount']:,.2f} - {anomaly['category']} on {anomaly['date']}"):
                         st.write(f"**Type:** {anomaly['type'].replace('_', ' ').title()}")
                         st.write(f"**Description:** {anomaly.get('description', 'N/A')}")
                         if 'deviation' in anomaly:
-                            st.write(f"**Deviation:** {anomaly['deviation']:.2f} standard deviations above average")
+                            st.write(f"**Deviation:** {anomaly['deviation']:,.2f} standard deviations above average")
                         if 'category_average' in anomaly:
-                            st.write(f"**Category Average:** ${anomaly['category_average']:.2f}")
+                            st.write(f"**Category Average:** ${anomaly['category_average']:,.2f}")
             else:
                 st.info("No significant anomalies detected in your spending patterns.")
 
 def budget_planning():
     """Budget planning and recommendations page"""
-    st.header("💳 Budget Planning & Recommendations")
+    st.header("Budget Planning & Recommendations")
     
     transactions_df = st.session_state.get('current_transactions', pd.DataFrame())
     monthly_income = st.session_state.current_user_income
@@ -682,7 +919,7 @@ def budget_planning():
         user_data = {
             'monthly_income': monthly_income,
             'age': 30,  # Default
-            'financial_goals': 'Emergency Fund',
+            'financial_goals': st.session_state.get('financial_goal', 'Emergency Fund'),
             'risk_tolerance': 'Moderate',
             'transactions': transactions_df
         }
@@ -698,7 +935,7 @@ def budget_planning():
     col1, col2 = st.columns([2, 1])
     
     with col1:
-        st.subheader("📊 Recommended vs Current Budget")
+        st.subheader("Recommended vs Current Budget")
         
         if 'current_vs_recommended' in budget_recommendations:
             budget_comparison = budget_recommendations['current_vs_recommended']
@@ -716,15 +953,15 @@ def budget_planning():
                     'Recommended ($)': data['recommended_limit'],
                     'Difference ($)': data['difference'],
                     'Status': '🔴 Over' if data['status'] == 'over' else '🟢 Under',
-                    '% of Income': f"{data['percentage_of_income']:.1f}%"
+                    '% of Income': f"{data['percentage_of_income']:,.1f}%"
                 }
                 for category, data in budget_comparison.items()
             ])
             
-            st.dataframe(budget_df, use_container_width=True)
+            st.dataframe(budget_df, use_container_width=True, height=400)
     
     with col2:
-        st.subheader("🎯 Budget Style")
+        st.subheader("Budget Style")
         budget_style = budget_recommendations.get('budget_style', 'moderate')
         st.info(f"**Recommended Style:** {budget_style.title()}")
         
@@ -742,7 +979,7 @@ def budget_planning():
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("💡 Recommendations")
+        st.subheader("Recommendations")
         recommendations = budget_recommendations.get('recommendations', [])
         
         for rec in recommendations:
@@ -757,24 +994,24 @@ def budget_planning():
                         st.write(f"• {action}")
     
     with col2:
-        st.subheader("💰 Savings Opportunities")
+        st.subheader("Savings Opportunities")
         savings_opportunities = budget_recommendations.get('savings_opportunities', [])
         
         total_potential_savings = sum(opp['potential_monthly_savings'] for opp in savings_opportunities)
-        st.metric("Total Potential Monthly Savings", f"${total_potential_savings:.2f}")
+        st.metric("Total Potential Monthly Savings", f"${total_potential_savings:,.2f}")
         
         for opp in savings_opportunities:
             difficulty_color = {"easy": "🟢", "medium": "🟡", "hard": "🔴"}
             difficulty_icon = difficulty_color.get(opp['difficulty'], "🟡")
             
-            st.write(f"{difficulty_icon} **{opp['category']}**: ${opp['potential_monthly_savings']:.2f}/month")
-            st.write(f"   Annual potential: ${opp['potential_annual_savings']:.2f}")
+            st.write(f"{difficulty_icon} **{opp['category']}**: ${opp['potential_monthly_savings']:,.2f}/month")
+            st.write(f"   Annual potential: ${opp['potential_annual_savings']:,.2f}")
             st.write(f"   Difficulty: {opp['difficulty'].title()}")
             st.write("---")
 
 def upload_data_page():
     """Data upload page"""
-    st.header("📁 Upload Your Financial Data")
+    st.header("Upload Your Financial Data")
     
     # File upload section
     uploaded_transactions = file_upload_section()
@@ -783,7 +1020,7 @@ def upload_data_page():
         st.success("Data uploaded successfully!")
         
         # Show analysis of uploaded data
-        st.subheader("📈 Quick Analysis")
+        st.subheader("Quick Analysis")
         
         expenses = uploaded_transactions[uploaded_transactions['transaction_type'] == 'expense']
         income = uploaded_transactions[uploaded_transactions['transaction_type'] == 'income']
@@ -807,14 +1044,15 @@ def upload_data_page():
                 y=category_spending.index,
                 orientation='h',
                 title='Spending by Category',
-                labels={'x': 'Amount ($)', 'y': 'Category'}
+                labels={'x': 'Amount ($)', 'y': 'Category'},
+                color_discrete_sequence=[SECONDARY_COLOR]
             )
-            fig.update_layout(yaxis={'categoryorder':'total ascending'})
+            fig.update_layout(yaxis={'categoryorder':'total ascending'}, template='plotly_white', font_family="Poppins, sans-serif", title_font_family="Montserrat, sans-serif")
             st.plotly_chart(fig, use_container_width=True)
     
     else:
         # Show sample data format
-        st.subheader("📋 Required Data Format")
+        st.subheader("Required Data Format")
         st.write("Your CSV file should have the following columns:")
         
         sample_data = pd.DataFrame([
@@ -848,24 +1086,24 @@ def upload_data_page():
         
         st.write("**Required columns:**")
         st.write("• `date` - Transaction date (YYYY-MM-DD format)")
-        st.write("• `amount` - Transaction amount (positive number)")
+        st.write("• `amount` - Transaction amount (positive number, for expense or income)")
         st.write("• `category` - Spending category")
         
         st.write("**Optional columns:**")
         st.write("• `description` - Transaction description")
         st.write("• `merchant` - Merchant/payee name")
-        st.write("• `transaction_type` - 'income' or 'expense' (defaults to 'expense')")
+        st.write("• `transaction_type` - 'income' or 'expense' (important for distinguishing cash flow)")
 
 def market_context_page():
     """Market context and economic indicators page"""
-    st.header("🌍 Market Context & Economic Indicators")
+    st.header("Market Context & Economic Indicators")
     
     # Get market data
     with st.spinner("Fetching latest market data..."):
         market_data = st.session_state.api_client.get_comprehensive_market_context()
     
     # Economic indicators
-    st.subheader("📊 Economic Indicators")
+    st.subheader("Economic Indicators")
     
     economic_indicators = market_data.get('economic_indicators', {})
     
@@ -893,7 +1131,7 @@ def market_context_page():
                 st.metric("Consumer Sentiment", f"{sentiment_data.get('current_value', 'N/A')}")
     
     # Market sentiment
-    st.subheader("📈 Market Sentiment")
+    st.subheader("Market Sentiment")
     
     market_sentiment = market_data.get('market_sentiment', {})
     
@@ -905,8 +1143,8 @@ def market_context_page():
         
         with col1:
             # Sentiment gauge
-            sentiment_color = 'green' if sentiment_score > 0.1 else 'red' if sentiment_score < -0.1 else 'orange'
-            st.metric("Overall Sentiment", sentiment_desc, delta=f"{sentiment_score:.3f}")
+            delta_color = 'inverse' if sentiment_score < 0 else 'normal'
+            st.metric("Overall Sentiment", sentiment_desc, delta=f"{sentiment_score:,.3f}", delta_color=delta_color)
         
         with col2:
             # Recent headlines
@@ -922,7 +1160,7 @@ def market_context_page():
     
     # Personal impact analysis
     if 'current_transactions' in st.session_state:
-        st.subheader("🎯 Impact on Your Finances")
+        st.subheader("Impact on Your Finances")
         
         user_data = {
             'monthly_income': st.session_state.current_user_income,
@@ -942,21 +1180,21 @@ def market_context_page():
             with col1:
                 monthly_impact = inflation_impact.get('monthly_impact', 0)
                 annual_impact = inflation_impact.get('total_estimated_annual_increase', 0)
-                st.metric("Additional Monthly Cost", f"${monthly_impact:.2f}")
-                st.metric("Additional Annual Cost", f"${annual_impact:.2f}")
+                st.metric("Additional Monthly Cost", f"${monthly_impact:,.2f}")
+                st.metric("Additional Annual Cost", f"${annual_impact:,.2f}")
             
             with col2:
                 percentage_impact = inflation_impact.get('percentage_of_income', 0)
-                st.metric("% of Income Impact", f"{percentage_impact:.1f}%")
+                st.metric("% of Income Impact", f"{percentage_impact:,.1f}%")
                 
                 # Category impacts
                 category_impacts = inflation_impact.get('category_impacts', {})
                 if category_impacts:
                     st.write("**Most Affected Categories:**")
                     sorted_impacts = sorted(category_impacts.items(), 
-                                          key=lambda x: x[1]['monthly_increase'], reverse=True)
+                                            key=lambda x: x[1]['monthly_increase'], reverse=True)
                     for category, impact in sorted_impacts[:3]:
-                        st.write(f"• {category}: +${impact['monthly_increase']:.2f}/month")
+                        st.write(f"• {category}: +${impact['monthly_increase']:,.2f}/month")
         
         # Interest rate impact
         if 'interest_rate_impact' in market_impact:
@@ -988,12 +1226,12 @@ def market_context_page():
         # Recommendations
         recommendations = market_impact.get('spending_recommendations', [])
         if recommendations:
-            st.subheader("💡 Market-Based Recommendations")
+            st.subheader("Market-Based Recommendations")
             for i, rec in enumerate(recommendations, 1):
                 st.write(f"{i}. {rec}")
     
     # Historical data if available
-    st.subheader("📊 Economic Trends")
+    st.subheader("Economic Trends")
     
     # Try to get historical economic data
     try:
@@ -1006,19 +1244,37 @@ def market_context_page():
             # Create trend charts for each indicator
             indicators = economic_data['indicator_name'].unique()
             
-            for indicator in indicators[:4]:  # Show first 4 indicators
-                indicator_data = economic_data[economic_data['indicator_name'] == indicator]
+            # Using subplots to present charts formally
+            num_indicators = min(len(indicators), 4)
+            if num_indicators > 0:
+                rows = (num_indicators + 1) // 2
+                cols = 2 if num_indicators > 1 else 1
                 
-                if len(indicator_data) > 1:
-                    fig = px.line(
-                        indicator_data,
-                        x='date',
-                        y='value',
-                        title=f'{indicator} Trend',
-                        markers=True
-                    )
-                    fig.update_layout(template='plotly_white')
-                    st.plotly_chart(fig, use_container_width=True)
+                fig = make_subplots(rows=rows, cols=cols, subplot_titles=[f'{ind.replace("_", " ")} Trend' for ind in indicators[:num_indicators]])
+                
+                for i, indicator in enumerate(indicators[:num_indicators]):
+                    row = i // cols + 1
+                    col = i % cols + 1
+                    indicator_data = economic_data[economic_data['indicator_name'] == indicator]
+                    
+                    if len(indicator_data) > 1:
+                        fig.add_trace(go.Scatter(
+                            x=indicator_data['date'],
+                            y=indicator_data['value'],
+                            mode='lines+markers',
+                            name=indicator,
+                            line=dict(color=PRIMARY_COLOR if i % 2 == 0 else SECONDARY_COLOR)
+                        ), row=row, col=col)
+                
+                fig.update_layout(
+                    height=400 * rows, 
+                    title_text="Key Economic Indicators Trends", 
+                    template='plotly_white', 
+                    showlegend=False,
+                    font_family="Poppins, sans-serif",
+                    title_font_family="Montserrat, sans-serif"
+                )
+                st.plotly_chart(fig, use_container_width=True)
     
     except Exception as e:
         st.write(f"Historical data not available: {str(e)}")
@@ -1034,13 +1290,15 @@ def market_context_page():
         })
         
         fig = px.line(
-            sample_data,
+            sample_data.melt(id_vars=['date'], var_name='Indicator', value_name='Rate (%)'),
             x='date',
-            y=['inflation', 'unemployment', 'fed_rate'],
+            y='Rate (%)',
+            color='Indicator',
             title='Economic Indicators Trend (Sample Data)',
-            labels={'value': 'Rate (%)', 'variable': 'Indicator'}
+            labels={'value': 'Rate (%)', 'variable': 'Indicator'},
+            color_discrete_sequence=[PRIMARY_COLOR, SECONDARY_COLOR, ACCENT_COLOR]
         )
-        fig.update_layout(template='plotly_white')
+        fig.update_layout(template='plotly_white', font_family="Poppins, sans-serif", title_font_family="Montserrat, sans-serif")
         st.plotly_chart(fig, use_container_width=True)
 
 # Run the app

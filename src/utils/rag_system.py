@@ -123,11 +123,15 @@ class FinancialRAGSystem:
         # Add user context if provided
         user_info = ""
         if user_context:
-            user_info = f"""
-User Context:
-- Monthly Income: ${user_context.get('monthly_income', 'Not specified')}
-- Recent Spending: {user_context.get('recent_spending_summary', 'No data')}
-- Budget Status: {user_context.get('budget_status', 'No budget set')}
+#             user_info = f"""
+# User Context:
+# - Monthly Income: ${user_context.get('monthly_income', 'Not specified')}
+# - Recent Spending: {user_context.get('recent_spending_summary', 'No data')}
+# - Budget Status: {user_context.get('budget_status', 'No budget set')}
+# """   
+            user_info = f""" 
+User Context
+- My Transaction Data: ${user_context}
 """
         
         # Create prompt
@@ -297,9 +301,11 @@ Feel free to ask me about specific topics like budgeting, saving, investing, or 
             'recommendations': [],
             'warnings': []
         }
-        
+
         # Analyze spending patterns
         if 'spending_by_category' in user_data:
+            print("Line 308", user_data)
+            print("Hooray! This is running")
             total_spending = user_data['spending_by_category']['total_spent'].sum()
             monthly_income = user_data.get('monthly_income', 0)
             
@@ -351,22 +357,25 @@ Feel free to ask me about specific topics like budgeting, saving, investing, or 
     def chat_with_context(self, query: str, user_data: Dict) -> Dict:
         """Enhanced chat function with user context and advice"""
         # Get contextual advice
-        contextual_advice = self.get_contextual_advice(user_data)
-        
+        # contextual_advice = self.get_contextual_advice(user_data)
+        # print("Printing contextual_advice: ", contextual_advice)
+
         # Prepare user context for RAG
-        user_context = {
-            'monthly_income': user_data.get('monthly_income'),
-            'recent_spending_summary': self._summarize_spending(user_data),
-            'budget_status': self._summarize_budget_status(user_data)
-        }
-        
+        # user_context = {
+        #     'monthly_income': user_data.get('monthly_income'),
+        #     'recent_spending_summary': self._summarize_spending(user_data),
+        #     'budget_status': self._summarize_budget_status(user_data)
+        # }
+
         # Generate response
-        response = self.generate_response(query, user_context)
+        response = self.generate_response(query, user_data)
+
+        print("This response is from the rag_system.py", response)
         
         return {
             'response': response,
-            'contextual_advice': contextual_advice,
-            'relevant_insights': self._get_relevant_insights(query, user_data)
+            # 'contextual_advice': contextual_advice,
+            # 'relevant_insights': self._get_relevant_insights(query, user_data)
         }
     
     def _summarize_spending(self, user_data: Dict) -> str:
