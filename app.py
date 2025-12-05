@@ -645,7 +645,7 @@ def main():
         # Page selection
         page = st.selectbox(
             "Choose a view:",
-            ["Dashboard Overview", "Spending Analysis", "Budget Planning", "AI Chat Assistant", "Upload Data", "Market Context"]
+            ["Upload Data", "Dashboard Overview", "Spending Analysis", "Budget Planning", "AI Chat Assistant", "Market Context"]
         )
         
         # User settings
