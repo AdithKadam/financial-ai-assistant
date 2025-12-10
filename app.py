@@ -461,8 +461,8 @@ def create_spending_velocity_chart(transactions_df):
         y=daily_spending['moving_avg'],
         mode='lines',
         line=dict(color=SECONDARY_COLOR, width=2), # Dark Teal/Blue line
-        name='7-Day Avg',
-        showLegend=False
+        name='Daily Moving',
+        showlegend=False
     ))
     
     fig.update_layout(
