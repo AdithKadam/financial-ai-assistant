@@ -442,7 +442,7 @@ def create_spending_velocity_chart(transactions_df):
     daily_spending.columns = ['date', 'amount']
     
     # Calculate 7-day moving average
-    daily_spending['moving_avg'] = daily_spending['amount'].rolling(window=7, min_periods=1).mean()
+    daily_spending['moving_avg'] = daily_spending['amount'].rolling(window=1, min_periods=1).mean()
     
     fig = go.Figure()
     
@@ -461,7 +461,8 @@ def create_spending_velocity_chart(transactions_df):
         y=daily_spending['moving_avg'],
         mode='lines',
         line=dict(color=SECONDARY_COLOR, width=2), # Dark Teal/Blue line
-        name='7-Day Avg'
+        name='7-Day Avg',
+        showLegend=False
     ))
     
     fig.update_layout(
