@@ -401,11 +401,12 @@ def create_financial_health_gauge(health_score):
         mode = "gauge+number+delta",
         value = health_score,
         domain = {'x': [0, 1], 'y': [0, 1]},
-        title = {'text': "Financial Health Score", 'font': {'family': 'Montserrat', 'color': SECONDARY_COLOR}},
-        delta = {'reference': 70},
+        title = {'text': "Financial Health Score", 'font': {'family': 'Montserrat', 'color': SECONDARY_COLOR, 'size': 16}},
+        delta = {'reference': 70, 'font': {'size': 14}},
+        number = {'font': {'size': 40, 'family': 'Poppins'}},
         gauge = {
-            'axis': {'range': [None, 100], 'tickfont': {'family': 'Poppins'}},
-            'bar': {'color': PRIMARY_COLOR}, # Vibrant Teal bar
+            'axis': {'range': [None, 100], 'tickfont': {'family': 'Poppins', 'size': 12}, 'visible': True},
+            'bar': {'color': PRIMARY_COLOR, 'thickness': 0.8}, # Vibrant Teal bar
             'steps': [
                 {'range': [0, 50], 'color': "#DDF3EB"}, # Lightest teal
                 {'range': [50, 80], 'color': "#BEE7DA"} # Mid teal
@@ -418,7 +419,13 @@ def create_financial_health_gauge(health_score):
         }
     ))
     
-    fig.update_layout(height=300, font_family="Poppins, sans-serif")
+    fig.update_layout(
+        height=300, 
+        font_family="Poppins, sans-serif",
+        margin=dict(l=20, r=20, t=60, b=20),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
     return fig
 
 def create_spending_velocity_chart(transactions_df):
