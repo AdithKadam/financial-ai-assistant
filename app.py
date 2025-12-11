@@ -538,6 +538,16 @@ def chat_interface():
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
     
+    # Display chat history - each message individually
+    for i, message in enumerate(st.session_state.chat_history[-10:]):
+        with st.chat_message(message["role"]):
+            # Split long messages into chunks if needed
+            content = message["content"]
+            st.markdown(content)
+    
+    # Add some spacing before input
+    st.markdown("---")
+    
     # Chat input
     user_input = st.chat_input("Ask me about your finances...")
     
@@ -570,13 +580,9 @@ def chat_interface():
             except Exception as e:
                 error_response = f"I apologize, but I encountered an error: {str(e)}. Please try rephrasing your question."
                 st.session_state.chat_history.append({"role": "assistant", "content": error_response})
-    
-    # Display chat history (using custom CSS classes via st.markdown)
-    for message in st.session_state.chat_history[-10:]:  # Show last 10 messages
-        if message["role"] == "user":
-            st.markdown(f'<div class="chat-message user-message">{message["content"]}</div>', unsafe_allow_html=True)
-        else:
-            st.markdown(f'<div class="chat-message ai-message">{message["content"]}</div>', unsafe_allow_html=True)
+        
+        # Rerun to update the display
+        st.rerun()
 
 def file_upload_section():
     """Handle file upload and processing"""
