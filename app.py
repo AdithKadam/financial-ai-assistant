@@ -538,15 +538,38 @@ def chat_interface():
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
     
-    # Display chat history - each message individually
-    for i, message in enumerate(st.session_state.chat_history[-10:]):
-        with st.chat_message(message["role"]):
-            # Split long messages into chunks if needed
-            content = message["content"]
-            st.markdown(content)
+    # Add custom CSS for better chat display
+    st.markdown("""
+        <style>
+        /* Make chat messages scrollable */
+        .stChatMessage {
+            max-height: none !important;
+            overflow: visible !important;
+        }
+        
+        /* Ensure chat input stays at bottom */
+        .stChatFloatingInputContainer {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 1rem 0;
+            z-index: 100;
+        }
+        
+        /* Add padding to main container */
+        section.main > div {
+            padding-bottom: 5rem;
+        }
+        </style>
+    """, unsafe_allow_html=True)
     
-    # Add some spacing before input
-    st.markdown("---")
+    # Display chat history - show ALL messages, not limited
+    for i, message in enumerate(st.session_state.chat_history):
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+    
+    # Add spacing before input
+    st.markdown("<br>", unsafe_allow_html=True)
     
     # Chat input
     user_input = st.chat_input("Ask me about your finances...")
